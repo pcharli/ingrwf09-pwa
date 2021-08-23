@@ -1,5 +1,5 @@
-const version = 0.5
-const oldVersion = version -0.1
+const version = 0.6
+const oldVersion = version - 0.1
 
 self.addEventListener("install", () => {
     console.log("Install Service worker version " + version)
@@ -9,9 +9,10 @@ self.addEventListener("install", () => {
 self.addEventListener("activate", (event) => {
     
     event.waitUntil(
-        caches.delete('design-cache-' + oldVersion)
+        caches.delete('design-cache-' + oldVersion),
+        caches.delete('code-cache-' + oldVersion)
     )
-    return self.ClientRectList.claim()
+    return self.clients.claim()
     //console.log("Activate Service worker version " + version)
 })
 
