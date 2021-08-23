@@ -1,6 +1,6 @@
 {
     "short_name": "Cepegra",
-    "version": "0.4",
+    "version": "0.5",
     "name": "App du Cepegra",
     "display": "fullscreen",
     "start_url": "/",
