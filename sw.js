@@ -1,12 +1,18 @@
-const version = "0.2"
+const version = 0.4
+const oldVersion = version -0.1
 
 self.addEventListener("install", () => {
     console.log("Install Service worker version " + version)
     return self.skipWaiting()
 })
 
-self.addEventListener("activate", () => {
-    console.log("Activate Service worker version " + version)
+self.addEventListener("activate", (event) => {
+    
+    event.waitUntil(
+        caches.delete('design-cache-' + oldVersion)
+    )
+    return self.ClientRectList.claim()
+    //console.log("Activate Service worker version " + version)
 })
 
 self.addEventListener('fetch', () => {
@@ -19,7 +25,8 @@ if (workbox) {
     //console.log('Yes, worbox is there')
     workbox.precaching.precacheAndRoute([
         {
-            "url": "index.html"
+            "url": "index.html",
+            revision: version
         },
         {
             "url": "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"
@@ -30,7 +37,7 @@ if (workbox) {
     workbox.routing.registerRoute(
         /(.*)\.(?:png|gif|jpg|css)$/,
         new workbox.strategies.CacheFirst({
-            cacheName: "design-cache",
+            cacheName: "design-cache-"+version,
             plugins: [
                 new workbox.expiration.Plugin({
                     maxAgeSeconds: 30*24*60*60, // 30 days,
@@ -43,7 +50,7 @@ if (workbox) {
     workbox.routing.registerRoute(
         /(.*)\.(?:js)$/,
         new workbox.strategies.CacheFirst({
-            cacheName: "code-cache",
+            cacheName: "code-cache-"+version,
             plugins: [
                 new workbox.expiration.Plugin({
                     maxAgeSeconds: 30*24*60*60, // 30 days,
