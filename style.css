@@ -1,0 +1,27 @@
+body {
+    font-family: verdana;
+    font-size: 140%;
+}
+header{
+    background-color: rgb(125,125,125);
+    padding: 2em;
+}
+footer {
+    background-color: rgb(200,200,200);
+    padding: 1em;
+    font-size: .8em;
+    text-align: center;
+}
+nav ul {
+    display: flex;
+    list-style: none;
+}
+.hidden {
+    display: none;
+}
+
+.install {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
